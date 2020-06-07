@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>myMemoPad</title>
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/sample.css" />
+  </head>
+
+  <body>
+    <!-- トップタイトル -->
+    <header>
+      <h1>名簿</h1>
+    </header>
+    <!-- 入力フォーム（名前） -->
+    <dl id="name">
+      <dt id="name_text">名前
+        <dd id="name_box">
+          <input type="text" id="name_box_form">
+        </dd>
+      </dt>
+    </dl>
+    <!-- 入力フォーム電話番号 -->
+    <dl id="tel">
+      <dt id="tel_text">電話番号
+        <dd id="tel_box">
+          <input type="text" id="tel_box_form">
+        </dd>
+      </dt>
+    </dl>
+    <button id="save_btn">保存</button>
+    
+   <!-- 登録した名前のリスト部分 -->
+    <h2 id="meibo_title">保存した名前リスト</h2>
+
+        <!-- 名前リスト表示部分 -->
+        <ul id="list">
+          <!-- ここにリスト表示する -->
+        </ul>
+
+        <button id="delete_btn">削除</button>
+        <!-- フッター -->
+    <footer><small>G's</small></footer>
+    <script>
+      // １．保存のクリックイベント
+     $("#save_btn").on("click",function(){
+      //  valで値を取得
+       var key=$("#name_box_form").val();
+       var value=$("#tel_box_form").val();
+      //  取得した値をlocalstorageへ保存
+       localStorage.setItem(key,value);
+      alert("保存できました。")
+      // 一覧表示に追加
+      var html=`
+      <li>
+      <span>${key}</span>
+      </li>`;
+      $("#list").append(html);
+     })
+    //  ２．保存したデータの読み込みでリロード後のリスト表示
+    for(let i = 0;i < localStorage.length; i++){
+      const key = localStorage.key(i);
+
+      // 一覧を読み込んでリスト表示
+      var html=`
+      <li>
+      <span>${key}</span>
+      </li>`;
+      $("#list").append(html);
+    }
+    // ３．読み込んだデータのリストからの削除
+    $("#delete_btn").on("click",function(){
+      localStorage.clear()
+      $("#list").empty()
+      alert("初期化しました。")
+    })
+    </script>
+  </body>
+</html>
